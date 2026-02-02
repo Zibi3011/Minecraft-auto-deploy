@@ -1,0 +1,6 @@
+- name: Deploy MineCloud application
+  hosts: minecloud_vm
+  become: true
+  roles:
+    - deploy_app
+
