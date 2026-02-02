@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Foundry>
+<VM>
+<VMId type="string">52 07 d8 b4 07 44 17 3e-b5 4d c8 51 d8 08 b6 8f</VMId>
+<ClientMetaData>
+<clientMetaDataAttributes/>
+<HistoryEventList/></ClientMetaData>
+<vmxPathName type="string">minecloud-base-v1.vmx</vmxPathName></VM></Foundry>

@@ -1,11 +1,7 @@
 ---
-- name: Update apt cache
+- name: Update system
   apt:
     update_cache: yes
-    cache_valid_time: 3600
-
-- name: Upgrade system packages
-  apt:
     upgrade: dist
 
 - name: Install base packages
@@ -20,43 +16,38 @@
       - lsb-release
     state: present
 
-
-
-
-- name: Add Docker GPG key
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-
-- name: Add Docker repository
-  apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
-    state: present
-    update_cache: yes
+- name: Install Docker
+  get_url:
+    url: https://get.docker.com
+    dest: /tmp/get-docker.sh
+    mode: '0755'
 
 - name: Install Docker engine
-  apt:
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-buildx-plugin
-      - docker-compose-plugin
-    state: present
+  command: sh /tmp/get-docker.sh
+  args:
+    creates: /usr/bin/docker
 
-
-
-
-- name: Create minecloud user
-  user:
-    name: minecloud
-    groups: docker
-    append: yes
-    shell: /bin/bash
-    create_home: yes
-
-- name: Enable Docker service
+- name: Enable Docker
   systemd:
     name: docker
     enabled: yes
     state: started
+
+- name: Install Docker Compose v2
+  apt:
+    name: docker-compose-plugin
+    state: present
+
+- name: Create minecloud user
+  user:
+    name: minecloud
+    shell: /bin/bash
+    groups: docker
+    append: yes
+    create_home: yes
+
+- name: Passwordless sudo for minecloud
+  copy:
+    dest: /etc/sudoers.d/minecloud
+    content: "minecloud ALL=(ALL) NOPASSWD:ALL\n"
+    mode: '0440'
