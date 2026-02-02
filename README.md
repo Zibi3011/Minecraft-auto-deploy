@@ -1,5 +1,5 @@
 # Minecraft-auto-deploy
 TP SecOps 
 
-Contrubuteurs Engueran Lecoq, Théo Bouland et Arnaud Marechal
+Contributeurs Engueran LECOQ, Théo BOULAND et Arnaud MARÉCHAL
 
