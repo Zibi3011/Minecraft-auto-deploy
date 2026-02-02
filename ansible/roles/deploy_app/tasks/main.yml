@@ -1,0 +1,29 @@
+- name: Create application directory
+  file:
+    path: /opt/minecloud
+    state: directory
+    owner: minecloud
+    group: minecloud
+    mode: '0755'
+- name: Copy docker-compose file
+  copy:
+    src: ../../app/docker-compose.yml
+    dest: /opt/minecloud/docker-compose.yml
+    owner: minecloud
+    group: minecloud
+    mode: '0644'
+- name: Copy web application files
+  copy:
+    src: ../../app/web
+    dest: /opt/minecloud/web
+    owner: minecloud
+    group: minecloud
+    mode: '0755'
+- name: Ensure minecloud is in docker group
+  user:
+    name: minecloud
+    groups: docker
+    append: yes
+- name: Deploy Docker Compose stack
+  community.docker.docker_compose_v2:
+    project_src: /opt/minecloud
