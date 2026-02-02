@@ -1,0 +1,19 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu-server
+    password: '=4096'
+    username: ubuntu
+  keyboard:
+    layout: us
+  locale: en_US
+  ssh:
+    allow-pw: true
+    install-server: true
+  storage:
+    layout:
+      name: direct
+  late-commands:
+    - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
+    - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/ubuntu

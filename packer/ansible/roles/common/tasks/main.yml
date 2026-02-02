@@ -1,0 +1,53 @@
+---
+- name: Update system
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install base packages
+  apt:
+    name:
+      - curl
+      - git
+      - htop
+      - unzip
+      - ca-certificates
+      - gnupg
+      - lsb-release
+    state: present
+
+- name: Install Docker
+  get_url:
+    url: https://get.docker.com
+    dest: /tmp/get-docker.sh
+    mode: '0755'
+
+- name: Install Docker engine
+  command: sh /tmp/get-docker.sh
+  args:
+    creates: /usr/bin/docker
+
+- name: Enable Docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Install Docker Compose v2
+  apt:
+    name: docker-compose-plugin
+    state: present
+
+- name: Create minecloud user
+  user:
+    name: minecloud
+    shell: /bin/bash
+    groups: docker
+    append: yes
+    create_home: yes
+
+- name: Passwordless sudo for minecloud
+  copy:
+    dest: /etc/sudoers.d/minecloud
+    content: "minecloud ALL=(ALL) NOPASSWD:ALL\n"
+    mode: '0440'
