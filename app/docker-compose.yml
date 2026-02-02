@@ -3,6 +3,7 @@ version: "3.9"
 services:
   minecraft:
     image: itzg/minecraft-server:latest
+<<<<<<< Updated upstream
     container_name: minecraft-server
     restart: unless-stopped
 
@@ -17,5 +18,35 @@ services:
     volumes:
       - minecraft_data:/data
 
+=======
+    container_name: minecraft
+    restart: unless-stopped
+    environment:
+      EULA: "TRUE"
+      TYPE: PAPER          # tu peux enlever ou changer (VANILLA, PAPER, SPIGOT…)
+      MEMORY: 2G
+    ports:
+      - "25565:25565"
+    volumes:
+      - minecraft_data:/data
+
+  webstatus:
+    build: ./web
+    container_name: web_status
+    depends_on:
+      - minecraft
+    environment:
+      MINECRAFT_HOST: "minecraft"
+      MINECRAFT_PORT: "25565"
+    ports:
+      - "5000:5000"     # ou "80:5000" si tu veux accéder via http://IP/
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+>>>>>>> Stashed changes
 volumes:
   minecraft_data:
