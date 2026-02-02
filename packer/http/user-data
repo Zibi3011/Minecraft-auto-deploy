@@ -1,0 +1,23 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+  ssh:
+    install-server: true
+    allow-pw: true
+  packages:
+    - openssh-server
+    - python3
+  storage:
+    layout:
+      name: direct
+  identity:
+    hostname: ubuntu
+    username: ubuntu
+    password: $6$rounds=4096$saltsalt$YwFhxUVfXqz7YlTG1wCJT8E4jvPLGTEKx8B7dL/xGvZqn/pKYnm/r1qzS9CL5/F2C8LYp.Sv3Z3Dv/Z3tL.1/
+  user-data:
+    disable_root: false
+  late-commands:
+    - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu

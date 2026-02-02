@@ -1,0 +1,62 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade system packages
+  apt:
+    upgrade: dist
+
+- name: Install base packages
+  apt:
+    name:
+      - curl
+      - git
+      - htop
+      - unzip
+      - ca-certificates
+      - gnupg
+      - lsb-release
+    state: present
+
+
+
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+    state: present
+    update_cache: yes
+
+- name: Install Docker engine
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+
+
+
+- name: Create minecloud user
+  user:
+    name: minecloud
+    groups: docker
+    append: yes
+    shell: /bin/bash
+    create_home: yes
+
+- name: Enable Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
