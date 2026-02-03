@@ -1,102 +1,126 @@
-# Minecraft-auto-deploy
-TP SecOps 
+# Minecraft Auto Deploy
 
-Contributeurs 
-Engueran LECOQ (Partie 1), 
-Théo BOULAND  (Partie 2),
-Mickaël CHARTIER (Partie 3),
-Arnaud MARÉCHAL (Partie 4).
+Projet de TP SecOps visant à automatiser le déploiement d’un serveur Minecraft à l’aide de Docker, avec une interface Web simple de supervision permettant de vérifier l’état du serveur et le nombre de joueurs connectés.
 
-<br/>
+---
 
-########## Docker – Serveur Minecraft ##########
+## Description
 
-Cette partie du projet concerne la conteneurisation du serveur Minecraft à l’aide de Docker Compose.
+Ce projet met en place :
+- Un serveur Minecraft containerisé avec Docker
+- Une persistance des données du monde
+- Une application Web de supervision (Python / Flask)
+- Une architecture simple, reproductible et orientée bonnes pratiques DevOps / SecOps
 
-**Technologies**
+L’objectif est de faciliter le déploiement, la gestion et la supervision d’un serveur Minecraft de manière automatisée.
+
+---
+
+## Fonctionnalités
+
+### Serveur Minecraft
+- Déploiement via Docker Compose
+- Utilisation de l’image `itzg/minecraft-server`
+- Données persistantes via volumes Docker
+- Port par défaut exposé : 25565
+- Acceptation automatique du EULA via variable d’environnement
+
+### Supervision Web
+- Application Web développée en Python avec Flask
+- Vérification de l’état du serveur Minecraft
+- Affichage du nombre de joueurs connectés
+- Interface accessible via navigateur Web
+
+---
+
+## Technologies utilisées
+
+| Composant | Technologie |
+|---------|------------|
+| Conteneurisation | Docker |
+| Orchestration | Docker Compose |
+| Serveur de jeu | Minecraft |
+| Supervision | Python, Flask |
+| Scripts | Shell |
+| Infrastructure | HCL |
+
+---
+
+## Prérequis
 
 - Docker
-  
-- Docker Compose v2
-  
-- Image Docker : itzg/minecraft-server
+- Docker Compose (v2 recommandé)
+- Python 3.x (pour la supervision si lancée hors Docker)
 
-<br/>
+---
 
-**Fonctionnement**
+## Installation
 
-Le serveur Minecraft est déployé dans un conteneur Docker avec les caractéristiques suivantes :
+### Cloner le dépôt
 
-- Acceptation de l’EULA via variable d’environnement
-  
-- Persistance des données (monde Minecraft) via un volume Docker
-  
-- Exposition du port 25565 pour permettre la connexion des joueurs
+```bash
+git clone https://github.com/Zibi3011/Minecraft-auto-deploy.git
+cd Minecraft-auto-deploy
 
-La persistance permet de conserver le monde même après un redémarrage du conteneur ou de la machine.
+## Lancer le serveur Minecraft
 
-<br/>
+    docker compose up -d
 
-**Connexion au serveur**
+Le serveur Minecraft sera accessible à l’adresse :
 
-```<IP_DU_SERVEUR>:25565```
+    <IP_DU_SERVEUR>:25565
 
-<br/>
+---
 
-########## Web Status – Supervision du serveur ##########
+## Lancer la supervision Web
 
-Cette partie du projet concerne le développement et le déploiement d’une application Web de supervision du serveur Minecraft.
+Si l’application de supervision n’est pas incluse dans Docker Compose :
 
-<br/>
+    python -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    python app.py
 
-**Technologies**
+Accès à l’interface Web :
 
-- Python
-  
-- Flask
-  
-- Librairie mcstatus
-  
-- Docker
+    http://<IP_DU_SERVEUR>:5000
 
-  <br/>
+---
 
-**Fonctionnalités**
+## Variables d’environnement
 
-La Web Status Page permet de :
+Certaines variables peuvent être définies dans le fichier docker-compose.yml :
 
-- Vérifier si le serveur Minecraft est en ligne
+| Variable   | Description                                      |
+|------------|--------------------------------------------------|
+| EULA=TRUE  | Acceptation du contrat de licence Minecraft      |
+| VERSION    | Version du serveur Minecraft                     |
+| MEMORY     | Mémoire allouée au serveur                       |
 
-- Afficher le nombre de joueurs connectés
+---
 
-- Fournir une interface Web très simple et accessible
+## Contribution
 
-  <br/>
+Les contributions sont acceptées :
 
-**Accès à la Web Status**
-<br/>
+- Fork du projet
+- Création d’une branche dédiée
+- Pull request claire et documentée
 
-L’application est exposée sur le port 5000 :
+---
 
-```http://<IP_DU_SERVEUR>:5000```
+## Licence
 
-<br/>
+Ce projet est fourni à des fins pédagogiques dans le cadre d’un TP SecOps.  
+La licence peut être ajoutée ou modifiée selon les besoins.
 
-Démarrage des services manuellement
+---
 
-<br/>
+## Auteurs
 
-dossier /app → ```docker compose up -d ```
+Projet réalisé par :
 
-Si problème DNS :
-
-```nano /etc/docker/daemon.json```
- 
-{
-  "dns": ["8.8.8.8", "1.1.1.1"]
-}
- 
-```sudo systemctl restart docker```
- 
-```docker-compose up --build -d```
- 
+- Enguéran LECOQ  
+- Théo BOULAND  
+- Mickaël CHARTIER  
+- Arnaud MARÉCHAL
