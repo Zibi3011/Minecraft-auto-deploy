@@ -62,6 +62,8 @@ L’objectif est de faciliter le déploiement, la gestion et la supervision d’
 git clone https://github.com/Zibi3011/Minecraft-auto-deploy.git
 cd Minecraft-auto-deploy
 
+```
+
 ## Lancer le serveur Minecraft
 
     docker compose up -d
