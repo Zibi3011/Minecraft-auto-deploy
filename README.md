@@ -76,12 +76,6 @@ Le serveur Minecraft sera accessible à l’adresse :
 
 ## Lancer la supervision Web
 
-Si l’application de supervision n’est pas incluse dans Docker Compose :
-
-    python -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    python app.py
 
 Accès à l’interface Web :
 
