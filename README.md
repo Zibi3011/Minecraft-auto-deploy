@@ -87,3 +87,16 @@ Démarrage des services manuellement
 <br/>
 
 dossier /app → ```docker compose up -d ```
+
+Si problème DNS :
+
+```nano /etc/docker/daemon.json```
+ 
+{
+  "dns": ["8.8.8.8", "1.1.1.1"]
+}
+ 
+```sudo systemctl restart docker```
+ 
+```docker-compose up --build -d```
+ 
