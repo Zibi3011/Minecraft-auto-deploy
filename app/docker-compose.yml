@@ -3,7 +3,6 @@ version: "3.9"
 services:
   minecraft:
     image: itzg/minecraft-server:latest
-<<<<<<< Updated upstream
     container_name: minecraft-server
     restart: unless-stopped
 
@@ -18,12 +17,11 @@ services:
     volumes:
       - minecraft_data:/data
 
-=======
     container_name: minecraft
     restart: unless-stopped
     environment:
       EULA: "TRUE"
-      TYPE: PAPER          # tu peux enlever ou changer (VANILLA, PAPER, SPIGOT…)
+      TYPE: PAPER
       MEMORY: 2G
     ports:
       - "25565:25565"
@@ -47,6 +45,5 @@ services:
       timeout: 3s
       retries: 5
 
->>>>>>> Stashed changes
 volumes:
   minecraft_data:
