@@ -39,7 +39,7 @@ La persistance permet de conserver le monde même après un redémarrage du cont
 
 **Connexion au serveur**
 
-<IP_DU_SERVEUR>:25565
+```<IP_DU_SERVEUR>:25565```
 
 <br/>
 
@@ -78,7 +78,7 @@ La Web Status Page permet de :
 
 L’application est exposée sur le port 5000 :
 
-http://<IP_DU_SERVEUR>:5000
+```http://<IP_DU_SERVEUR>:5000```
 
 <br/>
 
@@ -86,4 +86,4 @@ Démarrage des services manuellement
 
 <br/>
 
-dossier /app → docker compose up -d
+dossier /app → ```docker compose up -d ```
