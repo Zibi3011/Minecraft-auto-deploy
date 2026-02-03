@@ -1,3 +1,5 @@
+# ubuntu-22.04-vmware.pkr.hcl
+
 source "vmware-iso" "ubuntu" {
   iso_url      = "https://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso"
   iso_checksum = "sha256:9bc6028870aef3f74f4e16b900008179e78b130e6b0b9a140635434a46aa98b0"
@@ -19,17 +21,18 @@ source "vmware-iso" "ubuntu" {
   
   boot_wait = "5s"
   boot_command = [
-    "c",
-    "<wait>",
-    "linux /casper/vmlinuz --- autoinstall ds='nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/'",
-    "<enter><wait>",
-    "initrd /casper/initrd",
-    "<enter><wait>",
+    "c<wait>",
+    "set gfxpayload=keep<enter>",
+    "linux /casper/vmlinuz quiet autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ ---<enter>",
+    "initrd /casper/initrd<enter>",
     "boot<enter>"
   ]
   
   http_directory = "http"
   shutdown_command = "echo 'ubuntu' | sudo -S shutdown -P now"
+  
+  skip_export = false
+  output_directory = "output-ubuntu"
 }
 
 build {
@@ -51,6 +54,13 @@ build {
       "sudo chmod 0440 /etc/sudoers.d/minecloud",
       "sudo apt-get autoremove -y",
       "sudo apt-get clean"
+    ]
+  }
+  
+  # Convert to OVA after build (optional - comment out if you don't have ovftool in PATH)
+  post-processor "shell-local" {
+    inline = [
+      "& 'C:\\Program Files (x86)\\VMware\\VMware Workstation\\OVFTool\\ovftool.exe' --acceptAllEulas output-ubuntu/minecloud-base-${var.image_version}.vmx minecloud-base-${var.image_version}.ova"
     ]
   }
 }
