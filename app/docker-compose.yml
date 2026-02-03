@@ -37,7 +37,7 @@ services:
       MINECRAFT_HOST: "minecraft"
       MINECRAFT_PORT: "25565"
     ports:
-      - "5000:5000"     # ou "80:5000" si tu veux accéder via http://IP/
+      - "5000:5000"     # ou "80:5000" pour accéder via http://IP/
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
